@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.version     = AppConfig::VERSION
   s.authors     = ["Dan de Havilland"]
   s.email       = ["dan+dev@dandehavilland.com"]
-  s.homepage    = "dandehavilland.com"
+  s.homepage    = "http://www.dandehavilland.com/"
   s.summary     = "A simple, reusable class for accessing configuration variables in YAML files"
   s.description = s.description
 
