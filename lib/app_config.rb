@@ -1,6 +1,6 @@
 require 'yaml'
 module AppConfig
-  VERSION = "1.0"
+  VERSION = "1.0.2"
   
   def self.clear!
     @configurations = {}
