@@ -1,0 +1,11 @@
+development:
+  some_var: Some value
+
+production:
+  some_var: Something else
+
+staging:
+  some_var: Something less
+
+test:
+  some_var: Something more
