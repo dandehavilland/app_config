@@ -1,6 +1,7 @@
 require 'yaml'
+require 'activesupport/hash_with_indifferent_access'
 module AppConfig
-  VERSION = "1.0.2"
+  VERSION = "1.0.3"
   
   def self.clear!
     @configurations = {}
