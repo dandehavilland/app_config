@@ -1,7 +1,8 @@
 require 'yaml'
-require 'active_support/core_ext/hash'
+require 'hashie'
+# require 'active_support/core_ext/hash'
 module AppConfig
-  VERSION = "1.0.4"
+  VERSION = "1.1"
   
   def self.clear!
     @configurations = {}
@@ -23,10 +24,26 @@ module AppConfig
 
     private
     def load(filename)
-      conf_yml = HashWithIndifferentAccess.new(
+      conf_yml = ConfHash[
         YAML::load(
           ERB.new(
-            IO.read(File.join(Rails.root, 'config', "#{filename}.yml"))).result))[Rails.env.to_s]
+            IO.read(File.join(Rails.root, 'config', "#{filename}.yml"))).result)]
+      
+      if defined?(Rails)
+        conf_yml[Rails.env]
+      else
+        conf_yml
+      end
+    end
+  end
+  
+  class ConfHash < Hash
+    alias_method :orig_accessor, :[]
+    
+    def [] key=nil
+      orig_accessor key.to_s
+    rescue
+      super
     end
   end
 end
