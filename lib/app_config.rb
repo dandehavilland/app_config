@@ -1,6 +1,5 @@
 require 'yaml'
-require 'hashie'
-# require 'active_support/core_ext/hash'
+
 module AppConfig
   VERSION = "1.1.2"
   
