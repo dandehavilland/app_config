@@ -51,6 +51,7 @@ module AppConfig
         if value.is_a?(Hash)
           value = ConfHash[value]
           value.convert_children
+          self[key] = value
         end
       end
       self
