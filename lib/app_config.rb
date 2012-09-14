@@ -2,7 +2,7 @@ require 'yaml'
 require 'hashie'
 # require 'active_support/core_ext/hash'
 module AppConfig
-  VERSION = "1.1"
+  VERSION = "1.1.1"
   
   def self.clear!
     @configurations = {}
@@ -39,6 +39,22 @@ module AppConfig
   
   class ConfHash < Hash
     alias_method :orig_accessor, :[]
+    
+    def new data
+      super
+      convert_children
+    end
+    
+    def convert_children
+      keys.each do |key|
+        value = self[key]
+        if value.is_a?(Hash)
+          value = ConfHash[value]
+          value.convert_children
+        end
+      end
+      self
+    end
     
     def [] key=nil
       orig_accessor key.to_s
