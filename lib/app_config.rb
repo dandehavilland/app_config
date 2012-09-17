@@ -1,7 +1,7 @@
 require 'yaml'
 
 module AppConfig
-  VERSION = "1.1.2"
+  VERSION = "1.1.3"
   
   def self.clear!
     @configurations = {}
@@ -39,7 +39,14 @@ module AppConfig
   class ConfHash < Hash
     alias_method :orig_accessor, :[]
     
-    def new data
+    class << self
+      def [] data
+        h = super
+        h.convert_children
+      end
+    end
+    
+    def initialize data
       super
       convert_children
     end
@@ -48,16 +55,18 @@ module AppConfig
       keys.each do |key|
         value = self[key]
         if value.is_a?(Hash)
-          value = ConfHash[value]
-          value.convert_children
-          self[key] = value
+          self[key] = ConfHash[value]
         end
       end
       self
     end
     
+    def has_key? key
+      super(key.to_s) || super(key.to_sym)
+    end
+    
     def [] key=nil
-      orig_accessor key.to_s
+      orig_accessor(key.to_s) || orig_accessor(key.to_sym)
     rescue
       super
     end
